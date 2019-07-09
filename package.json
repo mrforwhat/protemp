@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "local": "vue-cli-service serve --mode local",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "dev-build": "vue-cli-service build --mode development",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -24,18 +26,23 @@
     "node-sass": "^4.11.0",
     "postcss-px2rem": "^0.3.0",
     "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.5.21"
+    "vue-template-compiler": "^2.5.21",
+    "uglifyjs-webpack-plugin": "^2.1.2"
   },
   "eslintConfig": {
     "root": true,
     "env": {
       "node": true
     },
+    "rules": {
+      "no-console": 0,
+      "no-debugger": 0,
+      "vue/no-unused-components": 0
+    },
     "extends": [
       "plugin:vue/essential",
       "eslint:recommended"
     ],
-    "rules": {},
     "parserOptions": {
       "parser": "babel-eslint"
     }

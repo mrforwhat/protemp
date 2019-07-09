@@ -1,26 +1,36 @@
 const path = require('path')
 const fs = require('fs')
 const postcss = require('postcss-px2rem')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 module.exports = {
-  publicPath: "/",
+  // 本地调试-serve模式时，修改.env.development VUE_APP_PUB_PATH为"/"
+  publicPath: process.env.VUE_APP_PUB_PATH,
+  assetsDir: '',
   outputDir: process.env.NODE_ENV === "development" ? 'devdist':'dist',
-
   filenameHashing: true,
-  pages: {
-    index: {
-      entry: 'src/main.js',
-      template: 'public/index.html',
-      filename: 'index.html',
-      chunks: ['chunk-vendors', 'chunk-common', 'index'],
-    }
-  },
+  productionSourceMap: false,
   configureWebpack: {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
-        '@css': path.resolve(__dirname, './src/assets/css')
+        '@css': path.resolve(__dirname, './src/assets/css'),
+        '@img': path.resolve(__dirname, './src/assets/img')
       }
-    }
+    },
+    externals: [{
+      moment: 'moment'
+    }],
+    plugins: process.env.NODE_ENV === "development" ? []: [new UglifyJsPlugin({
+      uglifyOptions: {
+        compress: {
+          warnings: false,
+          drop_debugger: true,
+          drop_console: true,
+        },
+      },
+      sourceMap: false,
+      parallel: true,
+    })]
   },
 
   css: {
