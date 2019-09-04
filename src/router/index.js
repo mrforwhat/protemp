@@ -2,19 +2,20 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // import reduceRoutes from './reduce'
 Vue.use(Router)
+import reduceRoutes from './reduce'
 
 const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'taketaxiHome',
       meta: {
-        routeName: 'home',
-        title: '首页'
+        routeName: 'taketaxiHome',
+        title: '出行'
       },
-      component: () => import('../views/Home.vue')
+      component: () => import('@/views/taketaxi/home')
     },
-    // ...reduceRoutes
+    ...reduceRoutes
   ]
 });
 

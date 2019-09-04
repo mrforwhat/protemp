@@ -1,3 +1,4 @@
+@import "./module/page";
 .iconfont{
   font-family:"iconfont" !important;
   font-size:16px;font-style:normal;
@@ -21,6 +22,42 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+//两行超出...
+.ell2 {
+  height: 40px;
+  line-height: 20px;
+  overflow: hidden;
+  .text {
+    float: right;
+    margin-left: -5px;
+    width: 100%;
+    word-break: break-all;
+  }
+  &::before {
+    float: left;
+    width: 5px;
+    content: '';
+    height: 32px;
+  }
+  &::after {
+    float: right;
+    content: "...";
+    height: 20px;
+    line-height: 20px;
+    /* 为三个省略号的宽度 */
+    width: 3em;
+    /* 使盒子不占位置 */
+    margin-left: -3em;
+    /* 移动省略号位置 */
+    position: relative;
+    left: 100%;
+    top: -20px;
+    padding-right: 5px;
+    background-color: #FFF;
+  }
+}
+
 .empty{
   width: 500px;
   height: 400px;
