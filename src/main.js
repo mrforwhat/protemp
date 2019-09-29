@@ -4,21 +4,33 @@ import router from './router/index'
 import store from './store'
 import Fastclick from 'fastclick'
 import request from '@/utils/request.js'
-import {Lazyload, Loadmore, Toast} from 'mint-ui'
+
 // require styles
 import 'lib-flexible/flexible'
 import '@css/normalize.css'
-import "mint-ui/lib/style.css"
 import '@css/common.scss'
 import '@css/variables.scss'
+
 import appHeader from '@/components/appHeader'
 
+// common component
+// mand-mobile通过babel-plugin-import引入，toast按需引入
+import {Toast} from 'mand-mobile'
+Vue.component('appHeader', appHeader)
+Vue.prototype.$toast = Toast
+Vue.prototype.$openLoading = function () {
+  this.$store.commit('setLoadingState', true)
+}
+Vue.prototype.$closeLoading = function () {
+  this.$store.commit('setLoadingState', false)
+}
+
+// config
 Fastclick.attach(document.body)
 Vue.config.productionTip = false
-Vue.component('appHeader', appHeader)
 Vue.use(request)
-Vue.use(Lazyload)
-Fastclick.attach(document.body)
+
+// compatibility
 // 解决ios input点击多次
 Fastclick.prototype.focus = function (targetElement) {
   var length;
@@ -32,52 +44,8 @@ Fastclick.prototype.focus = function (targetElement) {
   } else {
     targetElement.focus();
   }
-};
-Vue.prototype.$toast = function (text, time) {
-  Toast({
-    message: text,
-    duration: time || 2000
-  })
 }
-Vue.prototype.$openLoading = function () {
-  this.$store.commit('setLoadingState', true)
-}
-Vue.prototype.$closeLoading = function () {
-  this.$store.commit('setLoadingState', false)
-}
-Vue.config.productionTip = false
-// 重写loadMore,handleTouchEnd方法，解决ios上拉触发点击事件
-Loadmore.methods.handleTouchEnd = function handleTouchEnd(event) {
-  if (this.direction === 'down' && this.getScrollTop(this.scrollEventTarget) === 0 && this.translate > 0) {
-    event.stopPropagation()
-    event.preventDefault()
-    this.topDropped = true;
-    if (this.topStatus === 'drop') {
-      this.translate = '50';
-      this.topStatus = 'loading';
-      this.topMethod();
-    } else {
-      this.translate = '0';
-      this.topStatus = 'pull';
-    }
-  }
-  if (this.direction === 'up' && this.bottomReached && this.translate < 0) {
-    event.stopPropagation()
-    event.preventDefault()
-    this.bottomDropped = true;
-    this.bottomReached = false;
-    if (this.bottomStatus === 'drop') {
-      this.translate = '-50';
-      this.bottomStatus = 'loading';
-      this.bottomMethod();
-    } else {
-      this.translate = '0';
-      this.bottomStatus = 'pull';
-    }
-  }
-  this.$emit('translate-change', this.translate);
-  this.direction = '';
-}
+
 console.log(process.env)
 new Vue({
   router,

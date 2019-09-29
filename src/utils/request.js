@@ -1,6 +1,5 @@
 import axios from "axios"
 // import configs from '@/config/merchant.js'
-import {Toast} from 'mint-ui'
 import qs from 'querystring'
 
 axios.defaults.baseURL = process.env.VUE_APP_DOYOO_URL
@@ -30,7 +29,7 @@ axios.interceptors.response.use(
   function (response) {
     let data = response.data
     if (!data) {
-      Toast("返回数据异常")
+      alert("返回数据异常")
     }
 
     if (data.status === 403) {
