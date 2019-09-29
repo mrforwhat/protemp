@@ -15,7 +15,7 @@
     props: {
       pageTitle: {
         type: String,
-        default: '兜有'
+        default: 'GUI'
       },
       backRoute: {
         type: String,

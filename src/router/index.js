@@ -8,12 +8,11 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'taketaxiHome',
+      name: 'home',
       meta: {
-        routeName: 'taketaxiHome',
-        title: '出行'
+        title: '首页'
       },
-      component: () => import('@/views/taketaxi/home')
+      component: () => import('@/views/Home')
     },
     ...reduceRoutes
   ]

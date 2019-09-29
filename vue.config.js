@@ -1,6 +1,6 @@
 const path = require('path')
-const fs = require('fs')
-const postcss = require('postcss-px2rem')
+// const fs = require('fs')
+const postcss2rem = require('postcss-px2rem')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 module.exports = {
   // 本地调试-serve模式时，修改.env.development VUE_APP_PUB_PATH为"/"
@@ -35,13 +35,14 @@ module.exports = {
 
   css: {
     loaderOptions: {
-      sass: {
-        data: fs.readFileSync('./src/assets/css/variables.scss','utf-8')
+      scss: {
+        data: `@import "@css/variables.scss";`
       },
       postcss: {
-        plugins: [postcss({
-          remUnit: 75
-        })]
+        plugins: [
+          require('autoprefixer')(),
+          postcss2rem({remUnit: 75})
+        ]
       }
     }
   },
